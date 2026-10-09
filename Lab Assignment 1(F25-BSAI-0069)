@@ -1,0 +1,332 @@
+# Lab of Fundamentals of AI
+# Python Lab Assignment
+# Q1 to Q5 in one file
+
+
+# ==================== QUESTION 1 ====================
+# Student Result Management System
+
+def student_result():
+    students = []
+
+    for i in range(5):
+        print("\nStudent", i + 1)
+        name = input("Enter name: ")
+        roll = input("Enter roll number: ")
+
+        python = float(input("Enter Python marks: "))
+        ai = float(input("Enter Artificial Intelligence marks: "))
+        math = float(input("Enter Mathematics marks: "))
+
+        student = {
+            "name": name,
+            "roll": roll,
+            "python": python,
+            "ai": ai,
+            "math": math
+        }
+
+        students.append(student)
+
+    def calculate(student):
+        total = student["python"] + student["ai"] + student["math"]
+        percentage = total / 3
+
+        if percentage >= 80:
+            grade = "A"
+        elif percentage >= 70:
+            grade = "B"
+        elif percentage >= 60:
+            grade = "C"
+        elif percentage >= 50:
+            grade = "D"
+        else:
+            grade = "F"
+
+        return total, percentage, grade
+
+    result = ""
+
+    print("\n----- Student Results -----")
+
+    highest = students[0]
+
+    for student in students:
+        total, percentage, grade = calculate(student)
+
+        print("\nName:", student["name"])
+        print("Roll Number:", student["roll"])
+        print("Total Marks:", total)
+        print("Percentage:", round(percentage, 2))
+        print("Grade:", grade)
+
+        result += "Name: " + student["name"] + "\n"
+        result += "Roll Number: " + student["roll"] + "\n"
+        result += "Total Marks: " + str(total) + "\n"
+        result += "Percentage: " + str(round(percentage, 2)) + "\n"
+        result += "Grade: " + grade + "\n\n"
+
+        if percentage > calculate(highest)[1]:
+            highest = student
+
+    highest_percentage = calculate(highest)[1]
+
+    print("\nHighest Percentage:")
+    print("Name:", highest["name"])
+    print("Percentage:", round(highest_percentage, 2))
+
+    result += "Highest Percentage Student: " + highest["name"] + "\n"
+    result += "Percentage: " + str(round(highest_percentage, 2)) + "\n"
+
+    with open("results.txt", "w") as file:
+        file.write(result)
+
+    print("\nResults saved in results.txt")
+
+
+# ==================== QUESTION 2 ====================
+# Sentence Analysis
+
+def sentence_analysis():
+    sentence = input("\nEnter a sentence: ")
+
+    words = sentence.split()
+    unique_words = set(words)
+
+    longest = max(words, key=len)
+    shortest = min(words, key=len)
+
+    vowels = 0
+    for letter in sentence.lower():
+        if letter in "aeiou":
+            vowels += 1
+
+    analysis = ""
+    analysis += "Total words: " + str(len(words)) + "\n"
+    analysis += "Total characters: " + str(len(sentence)) + "\n"
+    analysis += "Longest word: " + longest + "\n"
+    analysis += "Shortest word: " + shortest + "\n"
+    analysis += "Number of vowels: " + str(vowels) + "\n"
+    analysis += "Unique words: " + str(unique_words) + "\n"
+    analysis += "Alphabetical order: " + str(sorted(unique_words)) + "\n"
+
+    print("\n----- Sentence Analysis -----")
+    print(analysis)
+
+    with open("word_analysis.txt", "w") as file:
+        file.write(analysis)
+
+    print("Analysis saved in word_analysis.txt")
+
+
+# ==================== QUESTION 3 ====================
+# Shopping Program
+
+def shopping():
+    products = {}
+
+    for i in range(5):
+        print("\nProduct", i + 1)
+        name = input("Enter product name: ")
+        price = float(input("Enter price: "))
+        quantity = int(input("Enter quantity: "))
+
+        products[name] = {
+            "price": price,
+            "quantity": quantity
+        }
+
+    def calculate_bill():
+        total = 0
+
+        for name in products:
+            price = products[name]["price"]
+            quantity = products[name]["quantity"]
+            product_total = price * quantity
+
+            print(name, "=", product_total)
+            total += product_total
+
+        return total
+
+    print("\n----- Shopping Bill -----")
+    total = calculate_bill()
+
+    print("Total Bill:", total)
+
+    discount = 0
+
+    if total > 10000:
+        discount = total * 0.10
+        print("Discount:", discount)
+
+    final_bill = total - discount
+    print("Final Bill:", final_bill)
+
+    expensive = ""
+    highest_price = 0
+
+    for name in products:
+        product_total = products[name]["price"] * products[name]["quantity"]
+
+        if product_total > highest_price:
+            highest_price = product_total
+            expensive = name
+
+    print("Most Expensive Product:", expensive)
+
+    with open("bill.txt", "w") as file:
+        file.write("Shopping Bill\n")
+        file.write("Total Bill: " + str(total) + "\n")
+        file.write("Discount: " + str(discount) + "\n")
+        file.write("Final Bill: " + str(final_bill) + "\n")
+        file.write("Most Expensive Product: " + expensive + "\n")
+
+    print("Bill saved in bill.txt")
+
+
+# ==================== QUESTION 4 ====================
+# Calculator
+
+def calculator():
+    def add(a, b):
+        return a + b
+
+    def subtract(a, b):
+        return a - b
+
+    def multiply(a, b):
+        return a * b
+
+    def divide(a, b):
+        return a / b
+
+    def modulus(a, b):
+        return a % b
+
+    while True:
+        print("\n----- Calculator -----")
+
+        num1 = float(input("Enter first number: "))
+        num2 = float(input("Enter second number: "))
+
+        print("+ Addition")
+        print("- Subtraction")
+        print("* Multiplication")
+        print("/ Division")
+        print("% Modulus")
+
+        operation = input("Enter operation: ")
+
+        if operation == "+":
+            answer = add(num1, num2)
+        elif operation == "-":
+            answer = subtract(num1, num2)
+        elif operation == "*":
+            answer = multiply(num1, num2)
+        elif operation == "/":
+            if num2 == 0:
+                print("Cannot divide by zero.")
+                continue
+            answer = divide(num1, num2)
+        elif operation == "%":
+            if num2 == 0:
+                print("Cannot use modulus with zero.")
+                continue
+            answer = modulus(num1, num2)
+        else:
+            print("Invalid operation.")
+            continue
+
+        print("Result:", answer)
+
+        again = input("Do you want another calculation? (yes/no): ")
+
+        if again.lower() != "yes":
+            break
+
+
+# ==================== QUESTION 5 ====================
+# Restaurant Management System
+
+def restaurant():
+    menu = {
+        1: ["Burger", 500],
+        2: ["Pizza", 800],
+        3: ["Fries", 250],
+        4: ["Drink", 150]
+    }
+
+    orders = []
+    total = 0
+
+    while True:
+        print("\n----- Restaurant Menu -----")
+        print("1. Burger - Rs. 500")
+        print("2. Pizza - Rs. 800")
+        print("3. Fries - Rs. 250")
+        print("4. Drink - Rs. 150")
+        print("5. Finish Order")
+
+        choice = int(input("Select item: "))
+
+        if choice == 5:
+            break
+
+        if choice in menu:
+            quantity = int(input("Enter quantity: "))
+
+            name = menu[choice][0]
+            price = menu[choice][1]
+            item_total = price * quantity
+
+            orders.append([name, quantity, item_total])
+            total += item_total
+
+            print("Item added.")
+        else:
+            print("Invalid choice.")
+
+    print("\n----- Final Bill -----")
+
+    bill = "Restaurant Bill\n\n"
+
+    for order in orders:
+        print(order[0], "x", order[1], "=", order[2])
+        bill += order[0] + " x " + str(order[1]) + " = Rs. " + str(order[2]) + "\n"
+
+    print("Final Bill: Rs.", total)
+    bill += "\nFinal Bill: Rs. " + str(total)
+
+    with open("orders.txt", "w") as file:
+        file.write(bill)
+
+    print("Bill saved in orders.txt")
+
+
+print("===== PYTHON LAB ASSIGNMENT =====")
+print("Q1 starts at: Student Result Management System")
+print("Q2 starts at: Sentence Analysis")
+print("Q3 starts at: Shopping Program")
+print("Q4 starts at: Calculator")
+print("Q5 starts at: Restaurant Management System")
+print("1. Student Result Management System")
+print("2. Sentence Analysis")
+print("3. Shopping Program")
+print("4. Calculator")
+print("5. Restaurant Management System")
+
+choice = input("Select task (1-5): ")
+
+if choice == "1":
+    student_result()
+elif choice == "2":
+    sentence_analysis()
+elif choice == "3":
+    shopping()
+elif choice == "4":
+    calculator()
+elif choice == "5":
+    restaurant()
+else:
+    print("Invalid choice.")
